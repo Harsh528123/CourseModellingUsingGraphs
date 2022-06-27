@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 #include <string>
-//g++ -o helloworld -std=c++11 graphUser.cpp
+//g++ -o graphUser -std=c++11 graphUser.cpp
 void printingIntro();
 
 void printingIntro(){
