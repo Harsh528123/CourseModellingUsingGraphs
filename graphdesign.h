@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include <vector>
 #include <set>
+#include <string>
 
 using namespace std;
 
@@ -37,13 +38,6 @@ public:
   // returns true if and only if (u,v) is an edge in the graph
   // will certainly return false if neither vertex is in the graph
   bool isItAnEdge(string firstvertex, string secondvertex);
-
-  // returns a const iterator to the neighbours of v
-  unordered_set<int>::const_iterator neighbours(string vertex) const;
-
-  // returns a const iterator to the end of v's neighour set
-  unordered_set<int>::const_iterator endIterator(string vertex) const;
-  
 
   // returns true if 'path' represents a path on this graph
   // a path is a walk with no repeated vertices

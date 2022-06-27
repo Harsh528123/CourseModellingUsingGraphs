@@ -1,4 +1,4 @@
-#include "graphdesign.h"
+#include "graphDesign.h"
 #include <iostream>
 using namespace std;
 #include <queue>
@@ -73,6 +73,7 @@ bool Directedgraph::isPathValid(vector<string> path){
     }
     return pathway;
 }
+
 
 
 
