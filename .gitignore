@@ -1,3 +1,5 @@
 .vscode
 
-graphUser.exe
+graph.exe
+graphUser.o
+graphBuilder.o
