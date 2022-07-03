@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-int Directedgraph::numNeighbours(std::string vertex){
+int Directedgraph::numNeighbours(std::string& vertex){
     return neighbours[vertex].size();
 }
 
@@ -19,7 +19,7 @@ std::vector<std::string> Directedgraph::getAllVertices(){
     return allVertices;
 }
 
-void Directedgraph::adding_Vertex(std::string vertex){
+void Directedgraph::adding_Vertex(std::string& vertex){
     if (neighbours.find(vertex)!=neighbours.end()){
         std::cout<<"Vertex already exists" << std::endl;
     } else{
@@ -27,12 +27,12 @@ void Directedgraph::adding_Vertex(std::string vertex){
     }
 }
 
- void Directedgraph::adding_Edge(std::string firstvertex, std::string secondvertex){
+ void Directedgraph::adding_Edge(std::string& firstvertex, std::string& secondvertex){
     neighbours[firstvertex].insert(secondvertex);
     // adds secondvertex in the set
  }
 
- bool Directedgraph::isItAVertex(std::string vertex){
+ bool Directedgraph::isItAVertex(std::string& vertex){
     if (neighbours.find(vertex)!=neighbours.end()){
         return true;
     } else{
@@ -40,7 +40,7 @@ void Directedgraph::adding_Vertex(std::string vertex){
     }
  }
 
-bool Directedgraph::isItAnEdge(std::string firstvertex, std::string secondvertex){
+bool Directedgraph::isItAnEdge(std::string& firstvertex, std::string& secondvertex){
     if (isItAVertex(firstvertex) && isItAVertex(secondvertex)){
         if (neighbours[firstvertex].find(secondvertex) != neighbours[firstvertex].end()){
         return true;
@@ -54,18 +54,28 @@ bool Directedgraph::isItAnEdge(std::string firstvertex, std::string secondvertex
     }
 }
 
-bool Directedgraph::isPathValid(std::vector<std::string> path){
+bool Directedgraph::checkExactPath(std::vector<std::string>& path){
     // path is a walk with no repeated vertices. 
-    bool pathway=false;
-    for (int i=0; i<path.size()-1; i++){
+    bool Notpathway=true;
+    for (long long unsigned int i=0; i<path.size()-1; i++){
         if(isItAVertex(path[i]) && isItAnEdge(path[i],path[i+1])){
             // if it is a neighbour 
-            pathway=true;
+            Notpathway=false;
         } else{
-            pathway=false;
+            Notpathway=true;
+            break;
         }
     }
-    return pathway;
+    // return the opposite
+    return (!Notpathway) ;
+}
+
+std::vector<std::string> Directedgraph::checkCoursesAfterPrereq(std::string& prerequisite){
+    std::vector<std::string> coursesAfterPrereq;
+    for (auto itr = neighbours[prerequisite].begin(); itr!=neighbours[prerequisite].end(); itr++){
+        coursesAfterPrereq.push_back(*itr);
+    }
+    return coursesAfterPrereq;
 }
 
 

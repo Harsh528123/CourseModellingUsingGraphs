@@ -15,7 +15,7 @@ class Directedgraph {
 public:
 
   // return the number of outgoing neighbours of v
-  int numNeighbours(std::string vertex);
+  int numNeighbours(std::string& vertex);
 
   // returns the number of nodes
   int size();
@@ -23,25 +23,30 @@ public:
   // return a vector with all vertices
   std::vector<std::string> getAllVertices();
   // add a vertex, does nothing if it already exists
-  void adding_Vertex(std::string vertex);
+  void adding_Vertex(std::string& vertex);
 
   // adds an edge, creating the vertices if they do not exist
   // if the edge already existed, does nothing
-  void adding_Edge(std::string firstvertex, std::string secondvertex);
+  void adding_Edge(std::string& firstvertex, std::string& secondvertex);
 
   // returns true if and only if v is a vertex in the graph
-  bool isItAVertex(std::string vertex);
+  bool isItAVertex(std::string& vertex);
 
 
   // returns true if and only if (u,v) is an edge in the graph
   // will certainly return false if neither vertex is in the graph
-  bool isItAnEdge(std::string firstvertex, std::string secondvertex);
+  bool isItAnEdge(std::string& firstvertex, std::string& secondvertex);
 
   // returns true if 'path' represents a path on this graph
   // a path is a walk with no repeated vertices
-  bool isPathValid(std::vector<std::string> path);
+  bool checkExactPath(std::vector<std::string>& path);
 
-  std::unordered_map<std::string,std::string> shortestPath(std::string vertex1, std::string vertex2);
+  // will find the shortest path between two courses 
+  std::unordered_map<std::string,std::string> shortestPath(std::string& vertex1, std::string& vertex2);
+
+
+  // will return all courses that require a certain prereq course 
+  std::vector<std::string> checkCoursesAfterPrereq(std::string& prerequisite);
 
 private:
   // with this representation the amortized time for 

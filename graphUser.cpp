@@ -20,6 +20,7 @@ To see if the course exists type \"CheckC\" and then press enter and then type t
 To see if the prerequisite exists type \"CheckP\" and then press enter and then type the prereq course and then with a space type the second course\n\
 To view all courses type \"ViewC\" and then press enter and then you will see each course along with the courses it is a prerequisite to\n\
 To know the number of courses that have a specific course as a prerequisite type \"ViewC_AfterPrereq\" and then press enter and then the prereuisite course name\n\
+To check if an exact path exists type \"ExactPath?\", press enter and then type all the courses necessary and press enter again to stop\n\
 To know the total number of courses type \"HowManyCourses\" and then press enter and then you will see a number \n\
 To quit type \"Quit\" and press enter \n";
     printf("%s\n", instructions);
@@ -51,15 +52,19 @@ void parseUserInput(Directedgraph& graphOfUser, string& inputOfUser,bool& keepGo
         string courseName="";
         cin>>courseName;
         graphOfUser.adding_Vertex(courseName);
+        // adds vertex in the graph
         cout<<"Course created!"<<endl;
+
     } else if (inputOfUser=="GenerateP"){
         string courseName1="";
         string courseName2="";
         cin>>courseName1>>courseName2;
         graphOfUser.adding_Edge(courseName1,courseName2);
+        // adds course1 as prereq to course2 using directed edge; 
         cout<<"Prerequisite relation made"<<endl;
     } else if (inputOfUser=="Quit"){
         keepGoing2=false;
+
     } else if (inputOfUser=="CheckC"){
         string course="";
         cin>>course;
@@ -68,6 +73,7 @@ void parseUserInput(Directedgraph& graphOfUser, string& inputOfUser,bool& keepGo
         } else {
             cout<<"No, it does not exist :("<<endl;
         }
+
     } else if (inputOfUser=="CheckP"){
         string courseName1="";
         string courseName2="";
@@ -77,12 +83,41 @@ void parseUserInput(Directedgraph& graphOfUser, string& inputOfUser,bool& keepGo
         } else {
             cout<<"No, it does not exist :("<<endl;
         }
+
     } else if (inputOfUser=="ViewC"){
         vector<string> courses= graphOfUser.getAllVertices();
-        for (int i=0; i<courses.size()-1; i++){
+        for (long long unsigned int i=0; i<courses.size()-1; i++){
             cout<<courses[i]<<" ";
         }
         cout<<courses[courses.size()-1]<<endl;
+
+    } else if (inputOfUser=="ViewC_AfterPrereq"){
+        string prereqcourse="";
+        cin>>prereqcourse;
+        const vector<string>& courses= graphOfUser.checkCoursesAfterPrereq(prereqcourse);
+        for (string course: courses){
+            cout<<course<<" ";
+        }
+        cout << "\n" ;
+
+    } 
+    else if (inputOfUser=="ExactPath?"){
+        string inputCourse = ""; 
+        vector<string> allegedPath;
+        // this is the path user wants to check if it exists
+        while (inputCourse!="end"){
+            cin>> inputCourse;
+            if (inputCourse=="end"){
+                continue;
+            }
+            allegedPath.push_back(inputCourse);
+        }
+        if (graphOfUser.checkExactPath(allegedPath)){
+            cout<<"Success"<<endl;
+        } else{
+            cout<< "Exact Path does not exist" << endl;
+        }
+
     }
 
 }
