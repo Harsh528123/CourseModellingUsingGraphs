@@ -12,6 +12,6 @@ I will update with the usage as soon as I am done the full implementation.
 3. Run the make file by typing "make"
 4. If on Windows, then type "graph.exe". If on Linux write ./graph or ./graph.exe . 
 
-After following the above expressions, this is what you should see: 
+After following the above instructions, this is what you should see: 
 
 ![Instructions](InstructionsForUser.jpg)
