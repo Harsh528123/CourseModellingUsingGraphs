@@ -1,6 +1,7 @@
 #include "graphDesign.h"
 #include <iostream>
 #include <string>
+#include <queue>
 
 int Directedgraph::numNeighbours(std::string& vertex){
     return neighbours[vertex].size();
@@ -13,7 +14,7 @@ int Directedgraph::size(){
 
 std::vector<std::string> Directedgraph::getAllVertices(){
     std::vector<std::string> allVertices;
-    for (std::pair<std::string, std::unordered_set<std::string>> element: neighbours){
+    for (auto& element: neighbours){
         allVertices.push_back(element.first);
     }
     return allVertices;
@@ -73,9 +74,48 @@ bool Directedgraph::checkExactPath(std::vector<std::string>& path){
 std::vector<std::string> Directedgraph::checkCoursesAfterPrereq(std::string& prerequisite){
     std::vector<std::string> coursesAfterPrereq;
     for (auto itr = neighbours[prerequisite].begin(); itr!=neighbours[prerequisite].end(); itr++){
+        // go through all elements in the set which is the value to the key value pair where key is a course 
         coursesAfterPrereq.push_back(*itr);
     }
     return coursesAfterPrereq;
+}
+
+bool Directedgraph::checkingForCycle(){
+    std::unordered_map<std::string,int> indegree;
+    // indegree means the number of arrows pointing to a course so key is course and value is number of arrows pointing to it
+    for (std::pair<std::string, std::unordered_set<std::string>> course: neighbours){
+       for (auto prereq = course.second.begin(); prereq!=course.second.end(); prereq++){
+            indegree[*prereq]=indegree[*prereq]+1;
+       }
+    }
+
+
+    std::queue<std::string> zeroIndegree; 
+    // if a course has zero indegrees we explore it 
+    for (auto& it:neighbours){
+        if (indegree[it.first]==0){
+            zeroIndegree.push(it.first);
+        }
+    }
+    std::vector <std::string> topologicalArr;
+    while (!zeroIndegree.empty()){
+        std::string theZeroIndegree = zeroIndegree.front();
+        zeroIndegree.pop();
+        topologicalArr.push_back(theZeroIndegree);
+        for (auto it = neighbours[theZeroIndegree].begin(); it!=neighbours[theZeroIndegree].end(); it++){
+            // for each neighbour decrement it 
+            indegree[*it]++;
+            if (indegree[*it]==0){
+                zeroIndegree.push(*it);
+            }
+        }
+    }
+    if (topologicalArr.size()!=indegree.size()){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 

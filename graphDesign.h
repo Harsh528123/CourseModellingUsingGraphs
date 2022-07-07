@@ -48,6 +48,8 @@ public:
   // will return all courses that require a certain prereq course 
   std::vector<std::string> checkCoursesAfterPrereq(std::string& prerequisite);
 
+  bool checkingForCycle();
+
 private:
   // with this representation the amortized time for 
   // finding or adding a vertex or an edge is O(1)

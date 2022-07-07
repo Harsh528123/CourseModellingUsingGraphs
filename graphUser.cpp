@@ -22,6 +22,7 @@ To view all courses type \"ViewC\" and then press enter and then you will see ea
 To know the number of courses that have a specific course as a prerequisite type \"ViewC_AfterPrereq\" and then press enter and then the prereuisite course name\n\
 To check if an exact path exists type \"ExactPath?\", press enter and then type all the courses necessary and press enter again to stop\n\
 To know the total number of courses type \"HowManyCourses\" and then press enter and then you will see a number \n\
+To know if there is sort of cycle which means there is an endless loop of following prerequisities type \"CheckForCycle\" \n\
 To quit type \"Quit\" and press enter \n";
     printf("%s\n", instructions);
 }
@@ -95,13 +96,13 @@ void parseUserInput(Directedgraph& graphOfUser, string& inputOfUser,bool& keepGo
         string prereqcourse="";
         cin>>prereqcourse;
         const vector<string>& courses= graphOfUser.checkCoursesAfterPrereq(prereqcourse);
+        string total_courses="";
         for (string course: courses){
-            cout<<course<<" ";
+            total_courses+= course +" ";
         }
-        cout << "\n" ;
+        cout << total_courses ;
 
-    } 
-    else if (inputOfUser=="ExactPath?"){
+    } else if (inputOfUser=="ExactPath?"){
         string inputCourse = ""; 
         vector<string> allegedPath;
         // this is the path user wants to check if it exists
@@ -118,6 +119,17 @@ void parseUserInput(Directedgraph& graphOfUser, string& inputOfUser,bool& keepGo
             cout<< "Exact Path does not exist" << endl;
         }
 
+    } else if (inputOfUser=="HowManyCourses"){
+        cout<<graphOfUser.size()<<endl;
+
+    } else if (inputOfUser=="CheckForCycle"){
+        bool isThereACycle= graphOfUser.checkingForCycle();
+        if (isThereACycle){
+            cout<<"There is a cycle"<<endl;
+        }
+        else {
+            cout<<"There is not a cycle" <<endl;
+        }
     }
 
 }
