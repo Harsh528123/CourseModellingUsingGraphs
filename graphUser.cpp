@@ -1,8 +1,9 @@
-#include "graphBuilder.cpp"
+#include "graphDesign.h"
 #include <iostream>
 #include <string>
 //g++ -o graphUser -std=c++11 graphUser.cpp
 using namespace std;
+
 void printingIntro();
 void userInput();
 void parseUserInput(Directedgraph& , string& , bool&);
@@ -24,6 +25,7 @@ void printingIntro(){
     To know the total number of courses type \"HowManyCourses\" and then press enter and then you will see a number \n\
     To know if there is sort of cycle which means there is an endless loop of following prerequisities type \"CheckForCycle\" \n\
     To delete a course type \"DeleteCourse\" and press enter. \n\
+    To delete a prerequisite type \"DeletePrerequisiteRelationship\" and press enter. \n\
     To quit type \"Quit\" and press enter \n";
     printf("%s\n", instructions);
 }
@@ -133,11 +135,19 @@ void parseUserInput(Directedgraph& graphOfUser, string& inputOfUser,bool& keepGo
         else {
             cout<<"There is not a cycle" <<endl;
         }
+
     } else if (inputOfUser=="DeleteCourse"){
         string course= "";
         cin>>course;
         graphOfUser.deletingCourse(course);
         cout<<"Course deleted"<<endl;
+
+    } else if (inputOfUser=="DeletePrerequisiteRelationship"){
+        string course1="";
+        string course2="";
+        cin >> course1 >> course2;
+        graphOfUser.deletingPrerequisite(course1,course2);
+        cout<< "Prerequisite deleted" <<endl;
     }
 
 }

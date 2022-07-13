@@ -122,6 +122,7 @@ bool Directedgraph::checkingForCycle(){
 
 void Directedgraph::deletingCourse(std::string& deletingcourse){
     // delete the course from the unordered_map as a key and from every unordered set it is in
+    // to delete properly, append to a delete array 
     std::vector<std::string> deletingcourses;
     for (auto& course: neighbours){
         if (course.first==deletingcourse){
@@ -132,6 +133,7 @@ void Directedgraph::deletingCourse(std::string& deletingcourse){
         for (auto neighbour = neighbours[theCourse].begin(); neighbour!=neighbours[theCourse].end(); neighbour++){
             if (*neighbour==deletingcourse){
                 deletingcourses.push_back(theCourse);
+                // push the prerequisite course that has it coming later into the deletion array
             }
         }
     }
@@ -140,8 +142,13 @@ void Directedgraph::deletingCourse(std::string& deletingcourse){
             neighbours.erase(deletingcourse);
         } else {
             neighbours[deletingcourses[i]].erase(deletingcourse);
+            // delete from its neighbours
         }
     }
+}
+
+void Directedgraph::deletingPrerequisite(std::string& course1, std::string& course2){
+    neighbours[course1].erase(course2);
 }
 
 

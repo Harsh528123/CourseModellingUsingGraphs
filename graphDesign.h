@@ -52,6 +52,8 @@ public:
 
   void deletingCourse(std::string& deletingcourse);
 
+  void deletingPrerequisite(std::string& course1, std::string& course2);
+
 private:
   // with this representation the amortized time for 
   // finding or adding a vertex or an edge is O(1)
