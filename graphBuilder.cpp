@@ -81,9 +81,10 @@ std::vector<std::string> Directedgraph::checkCoursesAfterPrereq(std::string& pre
 }
 
 bool Directedgraph::checkingForCycle(){
+
     std::unordered_map<std::string,int> indegree;
     // indegree means the number of arrows pointing to a course so key is course and value is number of arrows pointing to it
-    for (std::pair<std::string, std::unordered_set<std::string>> course: neighbours){
+    for (auto& course: neighbours){
        for (auto prereq = course.second.begin(); prereq!=course.second.end(); prereq++){
             indegree[*prereq]=indegree[*prereq]+1;
        }
@@ -101,10 +102,11 @@ bool Directedgraph::checkingForCycle(){
     while (!zeroIndegree.empty()){
         std::string theZeroIndegree = zeroIndegree.front();
         zeroIndegree.pop();
+        // lets explore the zero indegree course and add it's neighbours 
         topologicalArr.push_back(theZeroIndegree);
         for (auto it = neighbours[theZeroIndegree].begin(); it!=neighbours[theZeroIndegree].end(); it++){
             // for each neighbour decrement it 
-            indegree[*it]++;
+            indegree[*it]--;
             if (indegree[*it]==0){
                 zeroIndegree.push(*it);
             }
@@ -112,9 +114,33 @@ bool Directedgraph::checkingForCycle(){
     }
     if (topologicalArr.size()!=indegree.size()){
         return true;
-    }
-    else{
+    } else{
         return false;
+    }
+
+}
+
+void Directedgraph::deletingCourse(std::string& deletingcourse){
+    // delete the course from the unordered_map as a key and from every unordered set it is in
+    std::vector<std::string> deletingcourses;
+    for (auto& course: neighbours){
+        if (course.first==deletingcourse){
+            deletingcourses.push_back(course.first);
+            continue;
+        }
+        std::string theCourse=course.first;
+        for (auto neighbour = neighbours[theCourse].begin(); neighbour!=neighbours[theCourse].end(); neighbour++){
+            if (*neighbour==deletingcourse){
+                deletingcourses.push_back(theCourse);
+            }
+        }
+    }
+    for (int i=0; i<deletingcourses.size(); i++){
+        if (deletingcourses[i]==deletingcourse){
+            neighbours.erase(deletingcourse);
+        } else {
+            neighbours[deletingcourses[i]].erase(deletingcourse);
+        }
     }
 }
 

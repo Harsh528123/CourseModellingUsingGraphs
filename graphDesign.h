@@ -50,6 +50,8 @@ public:
 
   bool checkingForCycle();
 
+  void deletingCourse(std::string& deletingcourse);
+
 private:
   // with this representation the amortized time for 
   // finding or adding a vertex or an edge is O(1)
