@@ -1,4 +1,4 @@
-# ModellingCoursesUsingGraphs
+# ModellingCoursesUsingDirectedGraphs
 
 This project will allow a user to input courses as vertices in a graph and will allow for a prerequisite relationship by using directed edges.
 User will be able to ask to see the path from one sophomore course to a senior course. 
